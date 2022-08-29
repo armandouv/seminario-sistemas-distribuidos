@@ -89,6 +89,8 @@ class Store:
             resources stored in that node need to be rebalanced (removed from a
             node and added to another one).
             """
+            migrations = 0
+
             if prev_node is not None:
                 resources = self.nodes[prev_node].resources.copy()
 
@@ -96,8 +98,12 @@ class Store:
                     target_node = self.hash_generator.hash(element)
 
                     if target_node is not None and target_node != prev_node:
+                        migrations += 1
                         self.nodes[prev_node].resources.remove(element)
                         self.nodes[target_node].resources.append(element)
+
+            print("Total migrations (insertion of new node in " +
+                  self.hash_generator.get_name() + "): " + str(migrations))
 
     def remove_node(self, node):
         """
