@@ -57,6 +57,27 @@ class Store:
         consistent hash. You may need to adjust it to make it work with modular
         hash. Hash_generator has a member "scheme_name" that you can use.
         """
+        if self.hash_generator.get_name() == 'Modular_Hash':
+            self.hash_generator.add_node(new_node)
+            self.nodes[new_node] = Node(new_node)
+
+            migrations = 0
+
+            for node_name, node in self.nodes.items():
+                resources_copy = node.resources.copy()
+
+                for element in resources_copy:
+                    target_node = self.hash_generator.hash(element)
+
+                    if target_node is not None and target_node != node_name:
+                        migrations += 1
+                        node.resources.remove(element)
+                        self.nodes[target_node].resources.append(element)
+
+            print("Total migrations (insertion of new node in " +
+                  self.hash_generator.get_name() + "): " + str(migrations))
+            return
+
         prev_node = self.hash_generator.hash(new_node)
 
         rc = self.hash_generator.add_node(new_node)
