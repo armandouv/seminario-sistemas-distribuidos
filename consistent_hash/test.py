@@ -40,7 +40,8 @@ def run(words):
   """
   my_hash = CHash()
   my_store = Store(my_hash)
-  
+  mod_hash = ModHash()
+  mod_store = Store(mod_hash)
   
   """
   Add three nodes to the Store
@@ -50,6 +51,12 @@ def run(words):
   my_store.add_node("Node 3")
   
   my_store.dump()
+
+  mod_store.add_node("Node 1")
+  mod_store.add_node("Node 2")
+  mod_store.add_node("Node 3")
+
+  mod_store.dump()
   
 
   """
@@ -57,9 +64,10 @@ def run(words):
   """
   for word in words:
       my_store.add_resource(word)
+      mod_store.add_resource(word)
   
   my_store.dump()
-
+  mod_store.dump()
 
   """
   Remove one node from the Store. Stored objects need to be migrated to the
@@ -68,6 +76,9 @@ def run(words):
   my_store.remove_node("Node 1")
   my_store.dump()
 
+  mod_store.remove_node("Node 1")
+  mod_store.dump()
+
 
   """
   Add the node back to the Store. Objects need to be migrated to conform to the
@@ -75,6 +86,9 @@ def run(words):
   """
   my_store.add_node("Node 1")
   my_store.dump()
+
+  mod_store.add_node("Node 1")
+  mod_store.dump()
 
 
 
